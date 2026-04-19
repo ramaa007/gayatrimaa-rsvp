@@ -45,7 +45,7 @@
             <div class="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-2xl mb-4 text-orange-600">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="text-3xl font-extrabold text-slate-800 mb-1 text-center w-full uppercase text-center">Gayatri Yagna</h1>
+            <h1 class="text-3xl font-extrabold text-slate-800 mb-1 text-center w-full uppercase">Gayatri Yagna</h1>
             <p class="text-slate-500 text-sm font-medium tracking-tight text-center uppercase tracking-widest">Brisbane Region - AWGP Community</p>
         </header>
 
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <!-- Guest View: RSVP Form (Hidden initially) -->
+        <!-- Guest View: RSVP Form -->
         <div id="guest-form-container" class="hidden glass-card rounded-[2rem] shadow-lg p-6 border border-white no-print">
             <button onclick="showSelection()" class="mb-4 text-[10px] font-bold uppercase text-orange-600 flex items-center gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Change Event
@@ -88,8 +88,9 @@
                     </div>
                 </div>
                 <button type="submit" id="submit-btn" class="w-full py-4 bg-green-600 text-white font-bold text-lg rounded-xl shadow-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide">
-                    Submit RSVP via WhatsApp
+                    Submit RSVP
                 </button>
+                <p id="redirect-label" class="text-[10px] text-center text-slate-400 italic">This will save your details and take you to the WhatsApp Group.</p>
             </form>
 
             <div id="success-message" class="hidden text-center py-10">
@@ -97,8 +98,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>
                 </div>
                 <h3 class="text-2xl font-bold mb-1 text-slate-800 uppercase tracking-tight">Namaste!</h3>
-                <p class="text-slate-500 font-medium text-sm text-center mb-6">RSVP saved. Redirecting to WhatsApp...</p>
-                <a id="wa-backup-link" href="#" class="inline-flex items-center justify-center gap-2 px-6 py-4 bg-green-500 text-white font-bold rounded-2xl shadow-md hover:bg-green-600 mb-6 w-full uppercase tracking-widest">Confirm on WhatsApp</a>
+                <p class="text-slate-500 font-medium text-sm text-center mb-6 px-4">RSVP saved successfully. If you aren't redirected, click below:</p>
+                <a id="wa-backup-link" href="#" class="inline-flex items-center justify-center gap-2 px-6 py-4 bg-green-500 text-white font-bold rounded-2xl shadow-md hover:bg-green-600 mb-6 w-full uppercase tracking-widest transition-all active:scale-95">
+                    Continue to WhatsApp
+                </a>
                 <button onclick="location.reload()" class="block w-full text-orange-600 font-bold text-xs hover:underline uppercase tracking-widest opacity-60">Back to List</button>
             </div>
         </div>
@@ -107,7 +110,6 @@
         <div id="admin-section" class="hidden space-y-8 no-print">
             <h2 class="text-xl font-black uppercase tracking-widest text-center text-slate-800">Admin Dashboard</h2>
             
-            <!-- Create New Event Form -->
             <div class="bg-white rounded-[2rem] shadow-lg p-6 border border-slate-200">
                 <h3 class="text-xs font-bold mb-4 text-orange-500 uppercase tracking-widest flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Create New Yagna
@@ -115,7 +117,8 @@
                 <form id="admin-create-form" class="space-y-3">
                     <input required type="text" id="new-host" placeholder="Host Name (e.g. Vipul Kiri)" class="w-full p-3 bg-slate-50 border rounded-xl text-sm">
                     <input required type="text" id="new-address" placeholder="Address" class="w-full p-3 bg-slate-50 border rounded-xl text-sm">
-                    <input required type="text" id="new-date" placeholder="Date & Timing (Label)" class="w-full p-3 bg-slate-50 border rounded-xl text-sm">
+                    <input required type="text" id="new-date" placeholder="Date & Timing (e.g. Sun, 10th May)" class="w-full p-3 bg-slate-50 border rounded-xl text-sm">
+                    <input type="text" id="new-grouplink" value="https://chat.whatsapp.com/IVatJJ0azy46bfIYhNgzWj?mode=gi_t" placeholder="WhatsApp Group Link" class="w-full p-3 bg-slate-50 border rounded-xl text-sm">
                     <div class="flex flex-col">
                         <label class="text-[10px] font-bold text-slate-400 mb-1 ml-1 uppercase tracking-widest">RSVP Deadline Date</label>
                         <input required type="date" id="new-deadline" class="w-full p-3 bg-slate-50 border rounded-xl text-sm">
@@ -124,13 +127,9 @@
                 </form>
             </div>
 
-            <!-- Manage Events List -->
-            <div id="manage-events-list" class="space-y-6">
-                <!-- Admin Event cards populated here -->
-            </div>
+            <div id="manage-events-list" class="space-y-6"></div>
         </div>
 
-        <!-- Print Area -->
         <div id="admin-print-area" class="hidden print:block"></div>
 
         <div class="mt-12 text-center opacity-30 no-print">
@@ -143,8 +142,8 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, collection, addDoc, onSnapshot, getDocs, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // UPDATED MOBILE NUMBER
-        const MY_WHATSAPP = "61422671990"; 
+        // FALLBACK GROUP LINK
+        const GLOBAL_WA_GROUP = "https://chat.whatsapp.com/IVatJJ0azy46bfIYhNgzWj?mode=gi_t";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAhwD8Q0HKogAwdpkEGOlZ4nwLU30ju4yM",
@@ -181,7 +180,7 @@
                 onAuthStateChanged(auth, (user) => {
                     if (!user) return;
                     
-                    // Listen to Events
+                    // Sync Events
                     onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'events'), (snap) => {
                         events = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                         renderActiveEvents();
@@ -189,7 +188,7 @@
                         hideLoading();
                     });
 
-                    // Listen to RSVPs
+                    // Sync RSVPs
                     onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'rsvps'), (snap) => {
                         rsvpsByEvent = {};
                         snap.forEach(doc => {
@@ -212,15 +211,12 @@
         function renderActiveEvents() {
             const container = document.getElementById('active-events-list');
             container.innerHTML = '';
-            
             const active = events.filter(ev => new Date() <= new Date(ev.deadline).setHours(23,59,59));
-
             if (active.length === 0) {
                 document.getElementById('no-events-message').classList.remove('hidden');
                 return;
             }
             document.getElementById('no-events-message').classList.add('hidden');
-
             active.forEach(ev => {
                 const card = document.createElement('div');
                 card.className = 'glass-card rounded-[1.5rem] shadow-md border border-slate-100 overflow-hidden hover:scale-[1.02] transition-all cursor-pointer active:scale-95';
@@ -231,9 +227,8 @@
                     <div class="p-4 text-center space-y-1">
                         <p class="text-xs text-slate-400 uppercase font-black tracking-widest">${ev.date}</p>
                         <p class="text-[10px] text-slate-500 font-medium">${ev.address}</p>
-                        <div class="pt-2 text-[9px] font-black text-orange-500 uppercase tracking-widest border-t mt-2">Click to Open Form</div>
-                    </div>
-                `;
+                        <div class="pt-2 text-[9px] font-black text-orange-500 uppercase tracking-widest border-t mt-2">Open RSVP Form</div>
+                    </div>`;
                 card.onclick = () => selectEvent(ev);
                 container.appendChild(card);
             });
@@ -262,22 +257,24 @@
             const kids = parseInt(document.getElementById('guest-kids').value);
             const btn = document.getElementById('submit-btn');
 
-            btn.disabled = true; btn.innerHTML = 'Saving...';
+            btn.disabled = true; btn.innerHTML = '<div class="spinner !w-5 !h-5"></div> Saving...';
 
             try {
+                // Save to Database
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'rsvps'), { 
                     eventId: currentEventId, name, adults, kids, timestamp: new Date().toISOString() 
                 });
 
-                const msg = encodeURIComponent(`*Gayatri Yagna RSVP*\nHost: ${ev.hostName}\nDate: ${ev.date}\n\nGuest: ${name}\nAdults: ${adults}\nKids: ${kids}`);
-                const waLink = `https://wa.me/${MY_WHATSAPP}?text=${msg}`;
+                // Use event group link or global fallback
+                const targetUrl = (ev.groupLink && ev.groupLink.trim() !== "") ? ev.groupLink : GLOBAL_WA_GROUP;
                 
-                document.getElementById('wa-backup-link').href = waLink;
+                document.getElementById('wa-backup-link').href = targetUrl;
                 document.getElementById('rsvp-form').classList.add('hidden');
                 document.getElementById('success-message').classList.remove('hidden');
                 
-                window.location.href = waLink;
-            } catch (err) { alert("Database Error. Check Rules."); btn.disabled = false; }
+                // Redirect to WhatsApp Group
+                window.location.href = targetUrl;
+            } catch (err) { alert("Error saving RSVP. Please try again."); btn.disabled = false; }
         });
 
         // ADMIN FUNCTIONS
@@ -287,12 +284,15 @@
                 hostName: document.getElementById('new-host').value,
                 address: document.getElementById('new-address').value,
                 date: document.getElementById('new-date').value,
+                groupLink: document.getElementById('new-grouplink').value,
                 deadline: document.getElementById('new-deadline').value,
                 timestamp: new Date().toISOString()
             };
             await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'events'), data);
             document.getElementById('admin-create-form').reset();
-            alert("Added Successfully!");
+            // Keep the default group link for the next creation
+            document.getElementById('new-grouplink').value = GLOBAL_WA_GROUP;
+            alert("New Yagna Event Added!");
         });
 
         function renderAdminEvents() {
@@ -315,14 +315,13 @@
                         <div class="bg-white p-2 rounded-xl text-center"><p class="text-[8px] font-bold text-slate-400 uppercase">K</p><p class="font-black">${kTot}</p></div>
                     </div>
                     <div class="max-h-32 overflow-y-auto text-[10px] p-2 space-y-1">
-                        ${list.map(r => `<div class="flex justify-between border-b border-slate-50 py-1"><span class="capitalize font-bold">${r.name}</span><span class="opacity-40">${r.adults}A, ${r.kids}K</span></div>`).join('')}
+                        ${list.length ? list.map(r => `<div class="flex justify-between border-b border-slate-50 py-1"><span class="capitalize font-bold">${r.name}</span><span class="opacity-40">${r.adults}A, ${r.kids}K</span></div>`).join('') : '<p class="text-center opacity-30 italic py-2">No RSVPs</p>'}
                     </div>
                     <div class="p-2 flex gap-2">
                         <button onclick="downloadCSV('${ev.id}')" class="text-[9px] font-bold uppercase bg-slate-100 px-3 py-1.5 rounded-lg">CSV</button>
                         <button onclick="preparePrint('${ev.id}')" class="text-[9px] font-bold uppercase bg-slate-100 px-3 py-1.5 rounded-lg">PDF</button>
                         <button onclick="deleteEvent('${ev.id}')" class="text-[9px] font-bold uppercase text-red-500 ml-auto">Delete</button>
-                    </div>
-                `;
+                    </div>`;
                 container.appendChild(card);
             });
         }
@@ -335,7 +334,7 @@
             const blob = new Blob([csv], { type: 'text/csv' });
             const a = document.createElement('a');
             a.href = window.URL.createObjectURL(blob);
-            a.download = `RSVP_List_${ev.hostName.replace(/\s+/g, '_')}.csv`;
+            a.download = `RSVP_${ev.hostName.replace(/\s+/g, '_')}.csv`;
             a.click();
         };
 
