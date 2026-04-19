@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gayatri Yagna RSVP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .bg-orange-gradient { background: linear-gradient(135deg, #ff8c00 0%, #ed64a6 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #loading-screen { transition: all 0.5s ease-in-out; }
+        input, button { font-size: 16px !important; } 
+        .guest-row:nth-child(even) { background-color: #f8fafc; }
+        
+        @media print {
+            body * { visibility: hidden; }
+            #admin-print-area, #admin-print-area * { visibility: visible; }
+            #admin-print-area { position: absolute; left: 0; top: 0; width: 100%; border: none; shadow: none; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen pb-10">
+
+    <div id="app" class="max-w-2xl mx-auto px-4 py-6 md:py-12">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="fixed inset-0 bg-white flex flex-col items-center justify-center z-50">
+            <div class="spinner !border-t-orange-600 !border-slate-100 !w-12 !h-12 mb-4"></div>
+            <p class="text-orange-600 font-bold animate-pulse tracking-widest uppercase text-sm">Connecting...</p>
+        </div>
+
+        <!-- Ordinary User View: Header -->
+        <header id="guest-header" class="text-center mb-8 no-print">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-2xl mb-4 text-orange-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="text-3xl font-extrabold text-slate-800 mb-1 text-center w-full uppercase">Gayatri Yagna</h1>
+            <p class="text-slate-500 text-sm font-medium tracking-tight text-center uppercase tracking-widest">Brisbane Region - AWGP Community</p>
+        </header>
+
+        <!-- Event Details -->
+        <div id="event-card" class="glass-card rounded-[2rem] shadow-xl shadow-orange-200/40 overflow-hidden border border-white mb-6 no-print">
+            <div class="bg-orange-gradient p-6 text-white text-center">
+                <p class="text-orange-100 text-[10px] font-bold uppercase tracking-widest mb-1 text-center">Host Family</p>
+                <h2 id="display-host" class="text-xl font-bold uppercase tracking-tight tracking-wide">Riddhiben & Dhavalbhai Seta</h2>
+            </div>
+            <div class="p-6 space-y-5">
+                <div class="flex items-start gap-4">
+                    <div class="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <div><p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Location</p><p id="display-address" class="text-slate-700 font-semibold text-sm">67 Phoenix St, Rochedale QLD 4123</p></div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                    </div>
+                    <div><p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Date & Timing</p><p id="display-date" class="text-slate-700 font-semibold text-sm">Sunday, 3rd May 2026 (9:00 am to 12 noon)</p></div>
+                </div>
+                <div class="flex items-start gap-4 p-3 bg-orange-50/50 rounded-xl border border-orange-100">
+                    <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-orange-600 shrink-0 shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <div><p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">RSVP Deadline</p><p id="display-deadline" class="text-orange-700 font-bold text-sm uppercase tracking-wide">29 Apr 2026</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RSVP Form Section -->
+        <div id="guest-form-container" class="glass-card rounded-[2rem] shadow-lg p-6 border border-white no-print">
+            <form id="rsvp-form" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1.5 ml-1 uppercase">Full Name</label>
+                    <input required type="text" id="guest-name" class="w-full px-4 py-3.5 bg-slate-100 border-2 border-transparent rounded-xl focus:bg-white focus:border-orange-500 outline-none transition-all font-medium" placeholder="Enter your full name">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1.5 ml-1 uppercase">Adults (14+)</label>
+                        <input required type="number" id="guest-adults" min="1" value="1" class="w-full px-4 py-3.5 bg-slate-100 border-2 border-transparent rounded-xl focus:bg-white focus:border-orange-500 outline-none transition-all font-bold text-center">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1.5 ml-1 uppercase">Kids (&lt;14)</label>
+                        <input required type="number" id="guest-kids" min="0" value="0" class="w-full px-4 py-3.5 bg-slate-100 border-2 border-transparent rounded-xl focus:bg-white focus:border-orange-500 outline-none transition-all font-bold text-center">
+                    </div>
+                </div>
+                <button type="submit" id="submit-btn" class="w-full py-4 bg-green-600 text-white font-bold text-lg rounded-xl shadow-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center gap-2">
+                    Submit RSVP via WhatsApp
+                </button>
+                <p class="text-[10px] text-center text-slate-400 italic">This will save your details and open WhatsApp automatically.</p>
+            </form>
+
+            <!-- Success State -->
+            <div id="success-message" class="hidden text-center py-10">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-1 text-slate-800 uppercase tracking-tight">Namaste!</h3>
+                <p class="text-slate-500 font-medium text-sm text-center mb-6">RSVP saved. If WhatsApp didn't open, click the button below:</p>
+                <a id="wa-backup-link" href="#" class="inline-flex items-center justify-center gap-2 px-6 py-4 bg-green-500 text-white font-bold rounded-2xl shadow-md hover:bg-green-600 mb-6 w-full transition-all active:scale-95">
+                    Open WhatsApp Manually
+                </a>
+                <button onclick="location.reload()" class="block w-full text-orange-600 font-bold text-xs hover:underline uppercase tracking-widest opacity-60">Submit another RSVP</button>
+            </div>
+            
+            <div id="closed-message" class="hidden text-center py-8">
+                <p class="text-slate-400 font-medium italic uppercase tracking-widest text-xs">The RSVP window for this event is now closed.</p>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard (Only visible if ?admin=1 is in URL) -->
+        <div id="admin-section" class="hidden mt-4 space-y-6">
+            <div class="bg-orange-600 rounded-[2rem] p-6 text-white shadow-lg no-print">
+                <h4 class="text-[10px] font-bold uppercase tracking-widest mb-4 opacity-80 text-center">Summary Tally</h4>
+                <div class="grid grid-cols-3 gap-3 text-center">
+                    <div class="bg-white/10 p-3 rounded-2xl"><p class="text-[8px] uppercase font-bold opacity-70">Adults</p><p id="tally-adults" class="text-2xl font-black">0</p></div>
+                    <div class="bg-white/10 p-3 rounded-2xl"><p class="text-[8px] uppercase font-bold opacity-70">Kids</p><p id="tally-kids" class="text-2xl font-black">0</p></div>
+                    <div class="bg-white p-3 rounded-2xl text-orange-600 font-black"><p class="text-[8px] uppercase font-bold opacity-70">Total</p><p id="tally-total" class="text-2xl font-black">0</p></div>
+                </div>
+            </div>
+
+            <div id="admin-print-area" class="bg-white rounded-[1.5rem] shadow-lg overflow-hidden border border-slate-200">
+                <div class="px-5 py-3 bg-slate-50 border-b border-slate-200 flex justify-between items-center no-print">
+                    <h3 class="font-bold text-slate-800 text-[10px] uppercase tracking-wider">Guest List (Individual)</h3>
+                    <div class="flex gap-2">
+                        <button id="download-csv" class="text-[9px] bg-slate-200 px-3 py-1.5 rounded-lg font-bold uppercase hover:bg-slate-300">CSV</button>
+                        <button onclick="window.print()" class="text-[9px] bg-slate-200 px-3 py-1.5 rounded-lg font-bold uppercase hover:bg-slate-300">Print / PDF</button>
+                        <button id="clear-data" class="text-[9px] text-red-500 font-bold uppercase hover:underline ml-2">Reset</button>
+                    </div>
+                </div>
+                
+                <div class="hidden print:block p-6 text-center border-b-2">
+                    <h1 class="text-xl font-extrabold uppercase tracking-tight">Gayatri Yagna - RSVP List</h1>
+                    <p id="print-subtitle" class="text-[10px] text-slate-500 mt-1 uppercase tracking-[0.2em] font-bold"></p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs" id="guest-table">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-500 uppercase font-bold border-b border-slate-200">
+                                <th class="px-4 py-3">Guest Name</th>
+                                <th class="px-4 py-3 text-center">Adults</th>
+                                <th class="px-4 py-3 text-center">Kids</th>
+                            </tr>
+                        </thead>
+                        <tbody id="guest-list-body"></tbody>
+                        <tfoot class="bg-orange-50 font-bold border-t-2 border-orange-100">
+                            <tr>
+                                <td class="px-4 py-3 text-orange-800 uppercase tracking-widest font-black">Totals</td>
+                                <td id="footer-adults" class="text-center text-orange-800 text-sm">0</td>
+                                <td id="footer-kids" class="text-center text-orange-800 text-sm">0</td>
+                            </tr>
+                            <tr class="bg-orange-100 border-t border-orange-200">
+                                <td class="px-4 py-3 font-black text-orange-900 uppercase" colspan="2">Final Headcount</td>
+                                <td id="footer-total" class="text-center text-xl font-black text-orange-900">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div id="no-guests" class="p-8 text-center text-slate-400 text-xs italic">No entries found.</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[1.5rem] shadow-lg p-6 border border-slate-100 no-print">
+                <h3 class="text-xs font-bold mb-4 text-slate-400 uppercase tracking-widest text-center tracking-widest">Update Settings</h3>
+                <form id="admin-form" class="space-y-3">
+                    <input type="text" id="admin-host" placeholder="Host Name" class="w-full p-3 bg-slate-50 border rounded-xl text-sm">
+                    <input type="text" id="admin-address" placeholder="Address" class="w-full p-3 bg-slate-50 border rounded-xl text-sm">
+                    <input type="text" id="admin-date" placeholder="Date Label" class="w-full p-3 bg-slate-50 border rounded-xl text-sm">
+                    <input type="date" id="admin-deadline" class="w-full p-3 bg-slate-50 border rounded-xl text-sm">
+                    <button type="submit" class="w-full py-3 bg-slate-800 text-white font-bold rounded-xl text-sm uppercase tracking-widest">Update Website</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center opacity-30 no-print">
+            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400">AWGP Brisbane Community</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, collection, addDoc, onSnapshot, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const MY_WHATSAPP = "61425859901"; 
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAhwD8Q0HKogAwdpkEGOlZ4nwLU30ju4yM",
+            authDomain: "gayatrima-e66bd.firebaseapp.com",
+            projectId: "gayatrima-e66bd",
+            storageBucket: "gayatrima-e66bd.firebasestorage.app",
+            messagingSenderId: "303310908401",
+            appId: "1:303310908401:web:cddbef7259682f835d3250",
+            measurementId: "G-P1RCVM0BVR"
+        };
+
+        const appId = 'barsik-puja-rsvp';
+        let db, auth;
+        let eventSettings = { hostName: "Riddhiben & Dhavalbhai Seta", address: "67 Phoenix St, Rochedale QLD 4123", date: "Sunday, 3rd May 2026 (9:00 am to 12 noon)", deadline: "2026-04-29" };
+        let guestData = [];
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const isAdminMode = urlParams.get('admin') === '1';
+
+        const init = async () => {
+            if (isAdminMode) {
+                document.getElementById('admin-section').classList.remove('hidden');
+            }
+
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                await signInAnonymously(auth);
+
+                onAuthStateChanged(auth, (user) => {
+                    if (!user) return;
+                    
+                    const settingsDoc = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current');
+                    onSnapshot(settingsDoc, (snap) => {
+                        if (snap.exists()) { eventSettings = snap.data(); updateUI(); }
+                        else { setDoc(settingsDoc, eventSettings).catch(() => {}); }
+                        hideLoading();
+                    }, () => { hideLoading(); updateUI(); });
+
+                    const rsvpCol = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
+                    onSnapshot(rsvpCol, (snap) => {
+                        let a = 0, k = 0;
+                        guestData = [];
+                        const body = document.getElementById('guest-list-body');
+                        body.innerHTML = '';
+                        if (snap.empty) document.getElementById('no-guests').classList.remove('hidden');
+                        else document.getElementById('no-guests').classList.add('hidden');
+
+                        snap.forEach(d => {
+                            const data = d.data(); guestData.push(data);
+                            a += parseInt(data.adults || 0); k += parseInt(data.kids || 0);
+                            const tr = document.createElement('tr');
+                            tr.className = 'guest-row border-b border-slate-50';
+                            tr.innerHTML = `<td class="px-4 py-3 font-semibold text-slate-700 capitalize tracking-tight">${data.name}</td><td class="px-4 py-3 text-center text-orange-600 font-bold">${data.adults}</td><td class="px-4 py-3 text-center text-orange-600 font-bold">${data.kids}</td>`;
+                            body.appendChild(tr);
+                        });
+
+                        document.getElementById('tally-adults').innerText = a;
+                        document.getElementById('tally-kids').innerText = k;
+                        document.getElementById('tally-total').innerText = a + k;
+                        document.getElementById('footer-adults').innerText = a;
+                        document.getElementById('footer-kids').innerText = k;
+                        document.getElementById('footer-total').innerText = a + k;
+                    });
+                });
+            } catch (e) { hideLoading(); updateUI(); }
+        };
+
+        const hideLoading = () => {
+            const ls = document.getElementById('loading-screen');
+            if (ls) { ls.style.opacity = '0'; setTimeout(() => ls.classList.add('hidden'), 500); }
+        };
+
+        const updateUI = () => {
+            document.getElementById('display-host').innerText = eventSettings.hostName;
+            document.getElementById('display-address').innerText = eventSettings.address;
+            document.getElementById('display-date').innerText = eventSettings.date;
+            document.getElementById('print-subtitle').innerText = `${eventSettings.hostName} — ${eventSettings.date}`;
+            
+            const deadline = new Date(eventSettings.deadline);
+            const today = new Date(); today.setHours(0,0,0,0);
+            const dlEl = document.getElementById('display-deadline');
+            dlEl.innerText = deadline.toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+            
+            if (today > deadline.setHours(23,59,59)) {
+                dlEl.classList.add('text-red-500'); dlEl.innerText += " (CLOSED)";
+                if(!isAdminMode) {
+                    document.getElementById('rsvp-form').classList.add('hidden');
+                    document.getElementById('closed-message').classList.remove('hidden');
+                }
+            } else {
+                dlEl.classList.remove('text-red-500');
+                document.getElementById('rsvp-form').classList.remove('hidden');
+                document.getElementById('closed-message').classList.add('hidden');
+            }
+
+            document.getElementById('admin-host').value = eventSettings.hostName;
+            document.getElementById('admin-address').value = eventSettings.address;
+            document.getElementById('admin-date').value = eventSettings.date;
+            document.getElementById('admin-deadline').value = eventSettings.deadline;
+        };
+
+        document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const name = document.getElementById('guest-name').value;
+            const adults = parseInt(document.getElementById('guest-adults').value);
+            const kids = parseInt(document.getElementById('guest-kids').value);
+            
+            btn.disabled = true; btn.innerHTML = '<div class="spinner !w-5 !h-5"></div> Sending...';
+
+            try {
+                // 1. Save to Database
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'rsvps'), { name, adults, kids, timestamp: new Date().toISOString() });
+                
+                // 2. Prepare WhatsApp Link
+                const text = encodeURIComponent(`*Gayatri Yagna RSVP*\nHost: ${eventSettings.hostName}\n\nGuest: ${name}\nAdults: ${adults}\nKids: ${kids}`);
+                const waLink = `https://wa.me/${MY_WHATSAPP}?text=${text}`;
+                
+                // 3. Update Fallback UI
+                document.getElementById('wa-backup-link').href = waLink;
+                document.getElementById('rsvp-form').classList.add('hidden');
+                document.getElementById('success-message').classList.remove('hidden');
+                
+                // 4. COMBINED ACTION: Redirect directly (Best for Mobile)
+                window.location.href = waLink;
+
+            } catch (err) { 
+                alert("Permission Error. Check Firebase console for Rules or Anonymous Auth."); 
+                btn.disabled = false; 
+                btn.innerText = 'Submit RSVP via WhatsApp'; 
+            }
+        });
+
+        document.getElementById('admin-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const update = { hostName: document.getElementById('admin-host').value, address: document.getElementById('admin-address').value, date: document.getElementById('admin-date').value, deadline: document.getElementById('admin-deadline').value };
+            try { await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), update); alert("Website updated!"); } catch (e) { alert("Error."); }
+        });
+
+        document.getElementById('download-csv').addEventListener('click', () => {
+            if (guestData.length === 0) return alert("No data to download.");
+            let csv = "Full Name,Adults,Kids\n";
+            guestData.forEach(g => { csv += `"${g.name}",${g.adults},${g.kids}\n`; });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = `Gayatri_Yagna_List_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        });
+
+        document.getElementById('clear-data').addEventListener('click', async () => {
+            if (!confirm("Wipe all data for next month? DOWNLOAD CSV FIRST!")) return;
+            try {
+                const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'rsvps'));
+                const promises = snap.docs.map(d => deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'rsvps', d.id)));
+                await Promise.all(promises); alert("List Reset Successfully.");
+            } catch(e) { alert("Error clearing database."); }
+        });
+
+        init();
+    </script>
+</body>
+</html>
